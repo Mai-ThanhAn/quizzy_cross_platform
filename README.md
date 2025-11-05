@@ -4,8 +4,9 @@
 Mục tiêu là giúp sinh viên làm bài kiểm tra trực tuyến, giảng viên quản lý đề thi và xem kết quả trên web.
 
 ## Features
-- Student làm bài thi trắc nghiệm
-- Lecturer quản lý đề thi và xem kết quả
+- Sinh viên làm bài thi trắc nghiệm
+- Hỗ trợ sinh viên giải thích đáp án sai bằng trí tuệ nhân tạo
+- Giảng viên quản lý đề thi và xem kết quả
 - Super Admin quản trị hệ thống
 - Đăng nhập bằng tài khoản hệ thống / google auth
 - Realtime sync với Firebase
@@ -24,10 +25,11 @@ Project được tổ chức theo kiến trúc MVVM và chia module theo tuần 
 /lib → source code chính flutter
 
 ## Roadmap / Weekly Progress
-Roadmap chi tiết được lập kế hoạch và quản lý tại Jira: https://trello.com/invite/b/6909a1bbba80cacd516fbf89/ATTI17b3519fe9129702b6d4cb4813b5112aD5F83220/quizzy-cross-platform-project
+Roadmap chi tiết được lập kế hoạch và quản lý tại Jira: 
+https://trello.com/invite/b/6909a1bbba80cacd516fbf89/ATTI17b3519fe9129702b6d4cb4813b5112aD5F83220/quizzy-cross-platform-project
 
 ## Contact
-Author: Mai Thanh An
-University: Trường Đại Học Thủ Dầu Một
-Academic year: 2022 - 2027
-Email: maian250704@gmail.com
+- Author: Mai Thanh An
+- University: Trường Đại Học Thủ Dầu Một
+- Academic year: 2022 - 2027
+- Email: maian250704@gmail.com
