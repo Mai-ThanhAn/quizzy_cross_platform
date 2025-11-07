@@ -1,16 +1,35 @@
-# quizzy_cross_platform
+# Quizzy – Cross Platform Exam System (Flutter + Firebase)
 
-A new Flutter project.
+Ứng dụng thi trắc nghiệm đa nền tảng (mobile + web) xây dựng bằng Flutter, sử dụng Firebase làm backend.  
+Mục tiêu là giúp sinh viên làm bài kiểm tra trực tuyến, giảng viên quản lý đề thi và xem kết quả trên web.
 
-## Getting Started
+## Features
+- Sinh viên làm bài thi trắc nghiệm
+- Hỗ trợ sinh viên giải thích đáp án sai bằng trí tuệ nhân tạo
+- Giảng viên quản lý đề thi và xem kết quả
+- Super Admin quản trị hệ thống
+- Đăng nhập bằng tài khoản hệ thống / google auth
+- Realtime sync với Firebase
 
-This project is a starting point for a Flutter application.
+## Tech Stack
+- Flutter (Dart)
+- Firebase Auth
+- Firebase Firestore
+- MVVM Architecture
 
-A few resources to get you started if this is your first Flutter project:
+## Architecture
+Project được tổ chức theo kiến trúc MVVM và chia module theo tuần (sprint).
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Folder Structure
+/docs → chứa tài liệu project (.md)
+/lib → source code chính flutter
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Roadmap / Weekly Progress
+Roadmap chi tiết được lập kế hoạch và quản lý tại Jira: 
+https://trello.com/invite/b/6909a1bbba80cacd516fbf89/ATTI17b3519fe9129702b6d4cb4813b5112aD5F83220/quizzy-cross-platform-project
+
+## Contact
+- Author: Mai Thanh An
+- University: Trường Đại Học Thủ Dầu Một
+- Academic year: 2022 - 2027
+- Email: maian250704@gmail.com
