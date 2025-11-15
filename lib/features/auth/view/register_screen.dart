@@ -64,7 +64,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: const InputDecoration(
                     labelText: 'Email',
                     prefixIcon: Icon(Icons.email),
-                    border: OutlineInputBorder(),
+                    border: OutlineInputBorder(borderSide: BorderSide.none),
                   ),
                   keyboardType: TextInputType.emailAddress,
                 ),
