@@ -1,12 +1,12 @@
-// Đây là tầng thấp nhất của kiến trúc MVVM [Services], chịu trách nhiệm tương tác trực tiếp với Firebase Authentication.
-// Không chứa logic nghiệp vụ, validate hay xử lý dữ liệu, chỉ đơn thuần gọi các API của Firebase.
-
+// Service layer for Firebase Authentication.
+// This is the lowest layer of the MVVM architecture [Services], responsible for direct interaction with Firebase Authentication.
+// Dont contain business logic, validation, or data processing; simply calls Firebase APIs.
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Đăng ký tài khoản
+  // Register User
   Future<UserCredential> register(String email, String password) async {
     return await _auth.createUserWithEmailAndPassword(
       email: email,
@@ -14,7 +14,7 @@ class AuthService {
     );
   }
 
-  // Đăng nhập
+  // Login User
   Future<UserCredential> login(String email, String password) async {
     return await _auth.signInWithEmailAndPassword(
       email: email,
@@ -22,11 +22,11 @@ class AuthService {
     );
   }
 
-  // Đăng xuất
+  // Logout User
   Future<void> logout() async {
     await _auth.signOut();
   }
 
-  // User hiện tại
+  // Get Current User
   User? get currentUser => _auth.currentUser;
 }
