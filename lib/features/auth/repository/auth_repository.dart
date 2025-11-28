@@ -7,30 +7,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthRepository {
   final AuthService _service = AuthService();
 
-  // Đăng ký người dùng
+  // Register User
   Future<UserCredential> registerUser(String email, String password) async {
     try {
       return await _service.register(email, password);
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException 
+    catch (e) {
       throw Exception(e.message);
     }
   }
 
-  // Đăng nhập người dùng
+  // Login User
   Future<UserCredential> loginUser(String email, String password) async {
     try {
       return await _service.login(email, password);
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException 
+    catch (e) {
       throw Exception(e.message);
     }
   }
 
-  // Đăng xuất người dùng
+  // Logout User
   Future<void> logout() async {
     await _service.logout();
   }
 
-  // Lấy người dùng hiện tại
+  // Get Current User
   User? get currentUser => _service.currentUser;
 }
 
