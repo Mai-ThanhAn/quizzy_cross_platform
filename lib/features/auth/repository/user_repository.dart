@@ -1,14 +1,34 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:quizzy_cross_platform/data/model/users_model.dart';
 import 'package:quizzy_cross_platform/data/services/user_service.dart';
 
 class UserRepository {
-   final UserService _service = UserService();
+  final UserService _service = UserService();
 
-   Future<void> saveUser(String uid, String email, String role) {
-    return _service.createUser(uid, {
-      'email': email,
-      'role': role,
-      'createdAt': FieldValue.serverTimestamp(),
-    });
+  Future<void> saveUser(UserModel user) async {
+    try {
+      await _service.createUser(user.id, user.toMap());
+    } on FirebaseException
+    catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  Future<bool> checkEmailExists(String email) async {
+    try {
+      return await _service.checkEmailExists(email);
+    } on FirebaseException
+    catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  Future<UserModel?> getCurrentUser(String id) async {
+    try {
+      return await _service.getUser(id);
+    } on FirebaseException
+    catch (e) {
+      throw Exception(e.message);
+    }
   }
 }

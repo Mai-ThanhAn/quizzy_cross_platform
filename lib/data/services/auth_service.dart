@@ -22,6 +22,11 @@ class AuthService {
     );
   }
 
+  // Forgot Pass
+  Future<void> forgotpass(String email) async{
+    return await _auth.sendPasswordResetEmail(email: email);
+  }
+
   // Logout User
   Future<void> logout() async {
     await _auth.signOut();

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
-  final String id; // UID From Firebase Auth 
+  final String id; // UID From Firebase Auth
   final String email;
   final String fullName;
   final String role; // 'student', 'lecturer', 'superadmin'
@@ -9,7 +9,8 @@ class UserModel {
   final String? avatarUrl;
   final DateTime createdAt;
   final bool isActive;
-  final List<String> enrolledClassIds; // Used for students, if student is enrolled in classes
+  final List<String>
+  enrolledClassIds; // Used for students, if student is enrolled in classes
 
   UserModel({
     required this.id,
@@ -32,7 +33,6 @@ class UserModel {
       role: map['role'] ?? 'student',
       studentId: map['studentId'],
       avatarUrl: map['avatarUrl'],
-      // Handle Timestamp to DateTime conversion [because Firestore stores DateTime as Timestamp]
       createdAt: (map['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
       isActive: map['isActive'] ?? true,
       enrolledClassIds: List<String>.from(map['enrolledClassIds'] ?? []),

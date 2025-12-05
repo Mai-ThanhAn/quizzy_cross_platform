@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:quizzy_cross_platform/features/auth/viewmodel/login_viewmodel.dart';
 
 void main() {
   // Cấu hình thanh trạng thái trong suốt
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-  ));
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ),
+  );
   runApp(const MyApp());
 }
 
@@ -37,23 +41,19 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  // 1. Khai báo controllers cho các trường nhập liệu
   late final TextEditingController _emailController;
 
-  // Định nghĩa bảng màu
-  final Color primaryColor = const Color(0xFF4A90E2); // #4A90E2 (Xanh dương)
-  final Color textMain = const Color(0xFF333333);     // #333333 (Đen xám)
-  final Color textSecondary = const Color(0xFF666666);// #666666 (Xám nhạt)
-  final Color inputBorder = const Color(0xFFD1D5DB);  // Gray-300 (Viền xám)
+  final Color primaryColor = const Color(0xFF4A90E2);
+  final Color textMain = const Color(0xFF333333);
+  final Color textSecondary = const Color(0xFF666666);
+  final Color inputBorder = const Color(0xFFD1D5DB);
 
-  // 2. Khởi tạo controllers
   @override
   void initState() {
     super.initState();
     _emailController = TextEditingController();
   }
 
-  // 3. Dọn dẹp controllers để tránh rò rỉ bộ nhớ
   @override
   void dispose() {
     _emailController.dispose();
@@ -62,8 +62,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final vm = context.watch<LoginViewmodel>();
+
     return Scaffold(
-      // SafeArea giúp nội dung không bị lẹm vào tai thỏ
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -71,9 +72,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // --- PHẦN 1: HEADER ICON (Hình tròn chứa icon thư) ---
                 Container(
-                  width: 96, // w-24
+                  width: 96,
                   height: 96,
                   decoration: BoxDecoration(
                     color: primaryColor.withOpacity(0.1),
@@ -83,13 +83,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     child: Icon(
                       Icons.mark_email_unread_outlined,
                       color: primaryColor,
-                      size: 48, // Icon lớn
+                      size: 48,
                     ),
                   ),
                 ),
                 const SizedBox(height: 24),
 
-                // --- PHẦN 2: TIÊU ĐỀ & MÔ TẢ ---
                 Text(
                   "Forgot Password?",
                   style: TextStyle(
@@ -106,16 +105,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     color: textSecondary,
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    height: 1.5, // Khoảng cách dòng dễ đọc
+                    height: 1.5,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
 
-                // --- PHẦN 3: FORM NHẬP LIỆU (Hộp trắng đổ bóng) ---
                 Container(
                   width: double.infinity,
-                  constraints: const BoxConstraints(maxWidth: 480), // Giới hạn chiều rộng trên tablet/web
+                  constraints: const BoxConstraints(maxWidth: 480),
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -131,7 +129,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Label "Email"
+                      // Email
                       Text(
                         "Email",
                         style: TextStyle(
@@ -142,15 +140,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       ),
                       const SizedBox(height: 8),
 
-                      // Custom Input Field: Kết hợp IconBox (trái) và TextField (phải)
                       Row(
                         children: [
-                          // Hộp chứa Icon
                           Container(
-                            height: 56, // Chiều cao cố định
+                            height: 56,
                             width: 50,
                             decoration: BoxDecoration(
-                              color: const Color(0xFFF9FAFB), // Nền xám nhẹ
+                              color: const Color(0xFFF9FAFB),
                               border: Border(
                                 top: BorderSide(color: inputBorder),
                                 bottom: BorderSide(color: inputBorder),
@@ -167,8 +163,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               size: 24,
                             ),
                           ),
-                          
-                          // Hộp chứa TextField nhập liệu
+
                           Expanded(
                             child: Container(
                               height: 56,
@@ -186,7 +181,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 decoration: InputDecoration(
                                   hintText: "Enter registered email",
                                   hintStyle: TextStyle(color: textSecondary),
-                                  border: InputBorder.none, // Tắt viền mặc định
+                                  border: InputBorder.none,
                                   contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 15,
                                     vertical: 15,
@@ -200,15 +195,43 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                       const SizedBox(height: 24),
 
-                      // Nút "Send Reset Link"
                       SizedBox(
                         width: double.infinity,
                         height: 56,
                         child: ElevatedButton(
-                          onPressed: () {
-                            // Xử lý logic gửi email tại đây
-                            print("Gửi link reset tới: ${_emailController.text}");
-                          },
+                          onPressed: vm.isLoading
+                              ? null
+                              : () async {
+                                  bool success = await vm.forgotpass(
+                                    _emailController.text.trim(),
+                                  );
+                                  if (success) {
+                                    if (!context.mounted) return;
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          "Vui Lòng Kiểm Tra Email Của Bạn!",
+                                        ),
+                                        backgroundColor: Colors.green,
+                                      ),
+                                    );
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      '/login',
+                                    );
+                                  } else {
+                                    if (!context.mounted) return;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          vm.errorMessage ?? 'Đã Có Lỗi Xảy Ra',
+                                        ),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
+                                },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: primaryColor,
                             foregroundColor: Colors.white,
@@ -229,7 +252,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                       const SizedBox(height: 16),
 
-                      // Nút quay lại "Back to Login"
                       Center(
                         child: TextButton(
                           onPressed: () {

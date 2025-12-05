@@ -15,7 +15,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -25,7 +24,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
           ),
 
-          // Nội dung phía dưới
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

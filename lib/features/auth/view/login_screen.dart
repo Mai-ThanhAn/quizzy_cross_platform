@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quizzy_cross_platform/features/auth/viewmodel/login_viewmodel.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -28,6 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final vm = context.watch<LoginViewmodel>();
+
     return Scaffold(
       body: Stack(
         children: [
@@ -41,7 +45,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
 
-          // Nội dung phía dưới
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -119,7 +122,47 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: (vm.isLoading
+                              ? null
+                              : () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    bool success = await vm.login(
+                                      _emailController.text.trim(),
+                                      _passwordController.text.trim(),
+                                    );
+                                    if (success) {
+                                      if (!context.mounted) return;
+
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            "Đăng nhập thành công!",
+                                          ),
+                                          backgroundColor: Colors.green,
+                                        ),
+                                      );
+                                      Navigator.pushReplacementNamed(
+                                        context,
+                                        '/homestudent',
+                                      );
+                                    } else {
+                                      if (!context.mounted) return;
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            vm.errorMessage ??
+                                                'Đăng nhập thất bại',
+                                          ),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+                                    }
+                                  }
+                                }),
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             backgroundColor: const Color.fromARGB(255, 0, 0, 0),

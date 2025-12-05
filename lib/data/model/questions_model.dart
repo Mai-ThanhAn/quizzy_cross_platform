@@ -51,7 +51,6 @@ class QuestionModel {
       'difficulty': difficulty,
       'lecturerId': lecturerId,
       'createdAt': Timestamp.fromDate(createdAt),
-      // Lưu ý: Phải map list object sang list map
       'options': options.map((x) => x.toMap()).toList(),
     };
   }

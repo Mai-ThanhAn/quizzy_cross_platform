@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:quizzy_cross_platform/data/model/questions_model.dart';
 
-// Class con để lưu cấu hình đề thi
 class QuizSettings {
   final int durationMinutes;
   final DateTime startTime;
@@ -34,12 +32,11 @@ class QuizSettings {
   }
 }
 
-// Class con để lưu câu hỏi trong đề (Snapshot) - có thể có thêm điểm số
 class QuizQuestion {
   final String id;
   final String content;
   final double score;
-  final List<Map<String, dynamic>> options; // Lưu raw map cho đơn giản hoặc dùng OptionModel
+  final List<Map<String, dynamic>> options;
 
   QuizQuestion({
     required this.id,
@@ -49,12 +46,7 @@ class QuizQuestion {
   });
 
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'content': content,
-      'score': score,
-      'options': options,
-    };
+    return {'id': id, 'content': content, 'score': score, 'options': options};
   }
 
   factory QuizQuestion.fromMap(Map<String, dynamic> map) {

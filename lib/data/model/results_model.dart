@@ -55,7 +55,6 @@ class ResultsModel {
     required this.answers,
   });
 
-  // Getter tính toán số câu đúng
   int get correctCount => answers.where((a) => a.isCorrect).length;
 
   Map<String, dynamic> toMap() {
@@ -92,5 +91,3 @@ class ResultsModel {
     );
   }
 }
-
-
