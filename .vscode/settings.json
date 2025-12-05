@@ -2,5 +2,6 @@
     "java.configuration.updateBuildConfiguration": "interactive",
     "workbench.colorCustomizations": {
         "tree.indentGuidesStroke":"#61ffa0"
-    }
+    },
+    "cmake.sourceDirectory": "D:/SaveVSCode/Flutter/quizzy_cross_platform/linux"
 }
