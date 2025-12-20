@@ -6,7 +6,11 @@ class OptionModel {
   final String text;
   final bool isCorrect;
 
-  OptionModel({required this.id, required this.text, required this.isCorrect});
+  OptionModel({
+    required this.id,
+    required this.text,
+    required this.isCorrect,
+  });
 
   // Transfer from Object to Map (for Firestore Document)
   Map<String, dynamic> toMap() {
@@ -26,6 +30,7 @@ class OptionModel {
 // Class for QuestionModel
 class QuestionModel {
   final String id;
+  final String bankId;
   final String content;
   final String type; // 'multiple_choice', 'single_choice'
   final String difficulty; // 'easy', 'medium', 'hard'
@@ -35,6 +40,7 @@ class QuestionModel {
 
   QuestionModel({
     required this.id,
+    required this.bankId,
     required this.content,
     required this.type,
     this.difficulty = 'medium',
@@ -46,6 +52,7 @@ class QuestionModel {
   // Transfer from Object to Map (for Firestore Document)
   Map<String, dynamic> toMap() {
     return {
+      'bankId': bankId,
       'content': content,
       'type': type,
       'difficulty': difficulty,
@@ -59,6 +66,7 @@ class QuestionModel {
   factory QuestionModel.fromMap(Map<String, dynamic> map, String documentId) {
     return QuestionModel(
       id: documentId,
+      bankId: map['bankId'] ?? '',
       content: map['content'] ?? '',
       type: map['type'] ?? 'multiple_choice',
       difficulty: map['difficulty'] ?? 'medium',

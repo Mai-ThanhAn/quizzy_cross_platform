@@ -1,5 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:quizzy_cross_platform/data/model/users_model.dart';
+import 'package:quizzy_cross_platform/data/models/users_model.dart';
 import 'package:quizzy_cross_platform/data/services/user_service.dart';
 
 class UserRepository {

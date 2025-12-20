@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:quizzy_cross_platform/data/model/users_model.dart';
+import 'package:quizzy_cross_platform/data/models/users_model.dart';
 
 class UserService {
   final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');

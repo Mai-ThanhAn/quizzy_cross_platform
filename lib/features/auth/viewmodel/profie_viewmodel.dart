@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quizzy_cross_platform/data/model/users_model.dart';
+import 'package:quizzy_cross_platform/data/models/users_model.dart';
 import 'package:quizzy_cross_platform/features/auth/repository/auth_repository.dart';
 import 'package:quizzy_cross_platform/features/auth/repository/user_repository.dart';
 
@@ -12,6 +12,8 @@ class ProfieViewmodel extends ChangeNotifier {
   String? errorMessage;
 
   UserModel? get currentUser => _currentUser;
+
+  //
   Future<void> fechUserProfile() async {
     isLoading = true;
     errorMessage = null;

@@ -8,13 +8,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        fontFamily: 'Lexend', 
-        useMaterial3: true
-        ),
-      initialRoute:  AppRoutes.welcome,
-      routes: AppRoutes.routes,
+      title: 'Quizzy',
+      theme: ThemeData(fontFamily: 'Lexend', useMaterial3: true),
+      onGenerateRoute: AppRoutes.onGenerateRoute,
+      initialRoute: '/',
     );
   }
 }

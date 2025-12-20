@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:quizzy_cross_platform/features/auth/viewmodel/login_viewmodel.dart';
 
 void main() {
-  // Cấu hình thanh trạng thái trong suốt
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -25,7 +24,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Roboto',
         useMaterial3: true,
-        // Màu nền mặc định cho toàn app
         scaffoldBackgroundColor: const Color(0xFFF9FAFB),
       ),
       home: const ForgotPasswordScreen(),
@@ -42,11 +40,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   late final TextEditingController _emailController;
-
-  final Color primaryColor = const Color(0xFF4A90E2);
-  final Color textMain = const Color(0xFF333333);
-  final Color textSecondary = const Color(0xFF666666);
-  final Color inputBorder = const Color(0xFFD1D5DB);
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -60,221 +54,244 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     super.dispose();
   }
 
+  Widget _inputCard({required Widget child}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<LoginViewmodel>();
 
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 96,
-                  height: 96,
+      body: Stack(
+        children: [
+          // ===== Background Image =====
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/login_bg.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+
+          // ===== Dark Gradient Overlay =====
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black.withOpacity(0.2),
+                    Colors.black.withOpacity(0.6),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          // ===== Bottom Sheet Content =====
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SafeArea(
+              top: false,
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.fromLTRB(24, 36, 24, 32),
                   decoration: BoxDecoration(
-                    color: primaryColor.withOpacity(0.1),
-                    shape: BoxShape.circle,
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(36),
+                      topRight: Radius.circular(36),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.25),
+                        blurRadius: 30,
+                        offset: const Offset(0, -8),
+                      ),
+                    ],
                   ),
-                  child: Center(
-                    child: Icon(
-                      Icons.mark_email_unread_outlined,
-                      color: primaryColor,
-                      size: 48,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // Drag handle
+                        Center(
+                          child: Container(
+                            width: 40,
+                            height: 4,
+                            margin: const EdgeInsets.only(bottom: 24),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                          ),
+                        ),
+
+                        const Center(
+                          child: Text(
+                            'Quên Mật Khẩu',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Center(
+                          child: Text(
+                            'Nhập email để nhận liên kết đặt lại mật khẩu',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 32),
+
+                        _inputCard(
+                          child: TextFormField(
+                            controller: _emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                              prefixIcon: const Icon(
+                                Icons.email_outlined,
+                                color: Colors.blueAccent,
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 16,
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Vui lòng nhập email';
+                              }
+                              if (!value.contains('@')) {
+                                return 'Email không hợp lệ';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+
+                        const SizedBox(height: 32),
+
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.blueAccent.withOpacity(0.35),
+                                blurRadius: 16,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
+                          ),
+                          child: ElevatedButton(
+                            onPressed: vm.isLoading
+                                ? null
+                                : () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      final success = await vm.forgotpass(
+                                        _emailController.text.trim(),
+                                      );
+
+                                      if (!context.mounted) return;
+
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            success
+                                                ? 'Vui lòng kiểm tra email của bạn!'
+                                                : vm.errorMessage ??
+                                                    'Đã có lỗi xảy ra',
+                                          ),
+                                          backgroundColor: success
+                                              ? Colors.green
+                                              : Colors.red,
+                                        ),
+                                      );
+
+                                      if (success) {
+                                        Navigator.pushReplacementNamed(
+                                            context, '/login');
+                                      }
+                                    }
+                                  },
+                            style: ElevatedButton.styleFrom(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 16),
+                              backgroundColor: Colors.blueAccent,
+                              foregroundColor: Colors.white,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                            child: vm.isLoading
+                                ? const SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : const Text(
+                                    'Gửi Liên Kết',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        Center(
+                          child: TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text(
+                              'Quay lại đăng nhập',
+                              style: TextStyle(
+                                color: Colors.blueAccent,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                const SizedBox(height: 24),
-
-                Text(
-                  "Forgot Password?",
-                  style: TextStyle(
-                    color: textMain,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  "Enter your registered email to receive a password reset link.",
-                  style: TextStyle(
-                    color: textSecondary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    height: 1.5,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-
-                Container(
-                  width: double.infinity,
-                  constraints: const BoxConstraints(maxWidth: 480),
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 4,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Email
-                      Text(
-                        "Email",
-                        style: TextStyle(
-                          color: textMain,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-
-                      Row(
-                        children: [
-                          Container(
-                            height: 56,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF9FAFB),
-                              border: Border(
-                                top: BorderSide(color: inputBorder),
-                                bottom: BorderSide(color: inputBorder),
-                                left: BorderSide(color: inputBorder),
-                              ),
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                bottomLeft: Radius.circular(8),
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.mail_outline,
-                              color: textSecondary,
-                              size: 24,
-                            ),
-                          ),
-
-                          Expanded(
-                            child: Container(
-                              height: 56,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF9FAFB),
-                                border: Border.all(color: inputBorder),
-                                borderRadius: const BorderRadius.only(
-                                  topRight: Radius.circular(8),
-                                  bottomRight: Radius.circular(8),
-                                ),
-                              ),
-                              child: TextField(
-                                controller: _emailController,
-                                style: TextStyle(color: textMain),
-                                decoration: InputDecoration(
-                                  hintText: "Enter registered email",
-                                  hintStyle: TextStyle(color: textSecondary),
-                                  border: InputBorder.none,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 15,
-                                    vertical: 15,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      SizedBox(
-                        width: double.infinity,
-                        height: 56,
-                        child: ElevatedButton(
-                          onPressed: vm.isLoading
-                              ? null
-                              : () async {
-                                  bool success = await vm.forgotpass(
-                                    _emailController.text.trim(),
-                                  );
-                                  if (success) {
-                                    if (!context.mounted) return;
-
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          "Vui Lòng Kiểm Tra Email Của Bạn!",
-                                        ),
-                                        backgroundColor: Colors.green,
-                                      ),
-                                    );
-                                    Navigator.pushReplacementNamed(
-                                      context,
-                                      '/login',
-                                    );
-                                  } else {
-                                    if (!context.mounted) return;
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          vm.errorMessage ?? 'Đã Có Lỗi Xảy Ra',
-                                        ),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
-                                  }
-                                },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor,
-                            foregroundColor: Colors.white,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          child: const Text(
-                            "Send Reset Link",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      Center(
-                        child: TextButton(
-                          onPressed: () {
-                            // Xử lý quay lại màn hình Login
-                            print("Quay lại màn hình đăng nhập");
-                          },
-                          child: Text(
-                            "Back to Login",
-                            style: TextStyle(
-                              color: primaryColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

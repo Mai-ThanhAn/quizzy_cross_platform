@@ -26,14 +26,12 @@ class AnswerDetail {
       isCorrect: map['isCorrect'] ?? false,
     );
   }
-
 }
+
 class ResultsModel {
   final String id;
   final String quizId;
-  final String studentId;
-  final String studentName;
-  final String studentMssv;
+  final String studentUid;
   final double score;
   final double maxScore;
   final DateTime startedAt;
@@ -44,9 +42,7 @@ class ResultsModel {
   ResultsModel({
     required this.id,
     required this.quizId,
-    required this.studentId,
-    required this.studentName,
-    required this.studentMssv,
+    required this.studentUid,
     required this.score,
     required this.maxScore,
     required this.startedAt,
@@ -55,15 +51,10 @@ class ResultsModel {
     required this.answers,
   });
 
-  int get correctCount => answers.where((a) => a.isCorrect).length;
-
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'quizId': quizId,
-      'studentId': studentId,
-      'studentName': studentName,
-      'studentMssv': studentMssv,
+      'studentUid': studentUid,
       'score': score,
       'maxScore': maxScore,
       'startedAt': Timestamp.fromDate(startedAt),
@@ -73,17 +64,15 @@ class ResultsModel {
     };
   }
 
-  factory ResultsModel.fromMap(Map<String, dynamic> map, String documentId) {
+  factory ResultsModel.fromMap(Map<String, dynamic> map, String docId) {
     return ResultsModel(
-      id: documentId,
-      quizId: map['quizId'] ?? '',
-      studentId: map['studentId'] ?? '',
-      studentName: map['studentName'] ?? '',
-      studentMssv: map['studentMssv'] ?? '',
+      id: docId,
+      quizId: map['quizId'],
+      studentUid: map['studentUid'],
       score: (map['score'] ?? 0).toDouble(),
       maxScore: (map['maxScore'] ?? 0).toDouble(),
-      startedAt: (map['startedAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
-      submittedAt: (map['submittedAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      startedAt: (map['startedAt'] as Timestamp).toDate(),
+      submittedAt: (map['submittedAt'] as Timestamp).toDate(),
       isLate: map['isLate'] ?? false,
       answers: List<AnswerDetail>.from(
         (map['answers'] ?? []).map((x) => AnswerDetail.fromMap(x)),

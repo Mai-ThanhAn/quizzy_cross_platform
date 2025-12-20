@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizzy_cross_platform/core/exceptions/auth_exeption.dart';
 import 'package:quizzy_cross_platform/features/auth/repository/auth_repository.dart';
 import 'package:quizzy_cross_platform/features/auth/repository/user_repository.dart';
 
@@ -8,6 +9,7 @@ class LoginViewmodel extends ChangeNotifier {
 
   bool isLoading = false;
   String? errorMessage;
+  String? role;
 
   Future<bool> login(String email, String password) async {
     isLoading = true;
@@ -15,17 +17,26 @@ class LoginViewmodel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      bool exists = await _userRepo.checkEmailExists(email);
+      final userCred = await _authRepo.loginUser(email, password);
+      final uid = userCred.user?.uid;
 
-      if (!exists) {
-        errorMessage = 'Bạn chưa có tài khoản trong hệ thống.';
-        return false;
+      if (uid == null) {
+        throw AuthException('Đăng nhập thất bại.');
       }
 
-      await _authRepo.loginUser(email, password);
+      final userModel = await _userRepo.getCurrentUser(uid);
+
+      if (userModel == null || !userModel.isActive) {
+        throw AuthException('Tài khoản không hợp lệ.');
+      }
+
+      role = userModel.role;
       return true;
-    } catch (e) {
-      errorMessage = 'Đăng nhập thất bại: $e';
+    } on AuthException catch (e) {
+      errorMessage = e.message;
+      return false;
+    } catch (_) {
+      errorMessage = 'Đã có lỗi xảy ra';
       return false;
     } finally {
       isLoading = false;
@@ -48,7 +59,7 @@ class LoginViewmodel extends ChangeNotifier {
       await _authRepo.forgotpassUser(email);
       return true;
     } catch (e) {
-      errorMessage = 'Lỗi trong quá trình xử lý: $e';
+      errorMessage = 'Đã có lỗi xảy ra';
       return false;
     } finally {
       isLoading = false;
@@ -61,7 +72,7 @@ class LoginViewmodel extends ChangeNotifier {
       await _authRepo.logoutUser();
       return true;
     } catch (e) {
-      errorMessage = 'Đăng xuất thất bại: $e';
+      errorMessage = 'Đã có lỗi xảy ra';
       return false;
     }
   }

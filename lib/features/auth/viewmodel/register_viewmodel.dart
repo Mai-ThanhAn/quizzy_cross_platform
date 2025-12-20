@@ -3,7 +3,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:quizzy_cross_platform/data/model/users_model.dart';
+import 'package:quizzy_cross_platform/data/models/users_model.dart';
 import 'package:quizzy_cross_platform/features/auth/repository/user_repository.dart';
 import '../repository/auth_repository.dart';
 
@@ -17,7 +17,13 @@ class RegisterViewModel extends ChangeNotifier {
   bool isLoading = false;
   String? errorMessage;
 
-  Future<bool> register(String fullname, String? studentid, String email, String password, UserRole role) async {
+  Future<bool> register(
+    String fullname,
+    String? studentid,
+    String email,
+    String password,
+    UserRole role,
+  ) async {
     isLoading = true;
     errorMessage = null;
     notifyListeners();
@@ -45,8 +51,7 @@ class RegisterViewModel extends ChangeNotifier {
           fullName: fullname,
           role: role.name,
           isActive: isActive,
-          createdAt:
-              DateTime.now(),
+          createdAt: DateTime.now(),
           avatarUrl: 'default.jpg',
           studentId: role == UserRole.student ? studentid : null,
           enrolledClassIds: [],
