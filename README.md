@@ -25,8 +25,6 @@ Mục tiêu là giúp sinh viên làm bài kiểm tra trực tuyến, giảng vi
 |:---:|:---:|:---:|:---:|
 | ![Main](screenshots/image-4.png) | ![Profile](screenshots/image-5.png) | ![Class List](screenshots/image-6.png) | ![Detail Class](screenshots/image-7.png) |
 
-*Note: Do Quiz Screen (Chưa có hình ảnh)*
-
 ### 3. Lecturer - Giảng Viên
 **Quản lý chung & Lớp học**
 | Main Screen | Profile Screen | Class Screen | Create Class | Detail Class |
