@@ -11,6 +11,68 @@ Mục tiêu là giúp sinh viên làm bài kiểm tra trực tuyến, giảng vi
 - Đăng nhập bằng tài khoản hệ thống / google auth
 - Realtime sync với Firebase
 
+## Screenshot main features
+## Authentication - Xác Thực
+- Welcome Screen 
+![alt text](screenshots/screenshots/image.png)
+- Login
+![alt text](screenshots/screenshots/image-1.png)
+- Register
+![alt text](screenshots/image-2.png)
+- ForgotPass
+![alt text](screenshots/image-3.png)
+## Student - Sinh Viên
+- Main Screen
+![alt text](screenshots/image-4.png)
+- Profile Screen
+![alt text](screenshots/image-5.png)
+- Class List Screen
+![alt text](screenshots/image-6.png)
+- Detail Class Screen
+![alt text](screenshots/image-7.png)
+- Do Quiz Screen
+
+## Lecturer - Giảng Viên [Teacher]
+- Main Screen
+![alt text](screenshots/image-8.png)
+- Profile Screen
+![alt text](screenshots/image-9.png)
+- Class Screen
+![alt text](screenshots/image-10.png)
+- Create Class
+![alt text](screenshots/image-11.png)
+- Detail Class Screen
+![alt text](screenshots/image-12.png)
+- Detail Quiz
+![alt text](screenshots/image-13.png)
+- Config Quiz
+![alt text](screenshots/image-14.png)
+- Import Question From Bank To Quiz
+![alt text](screenshots/image-21.png)
+- Change Status Quiz
+![alt text](screenshots/image-22.png)
+- Result Screen
+![alt text](screenshots/image-16.png)
+- Bank Questons Screen
+![alt text](screenshots/image-17.png)
+- Create Bank Question
+![alt text](screenshots/image-18.png)
+- Detail Bank Question
+![alt text](screenshots/image-19.png)
+- Add Question To Bank
+![alt text](screenshots/image-20.png)
+
+## Admin - Quản Trị Viên
+- Main Screen
+![alt text](screenshots/image-23.png)
+- Accept Request From Lecturer
+![alt text](screenshots/image-26.png)
+- Lock Account
+![alt text](screenshots/image-25.png)
+
+## Demo Video
+https://youtu.be/iThdrS386gM
+
 ## Tech Stack
 - Flutter (Dart)
 - Firebase Auth
