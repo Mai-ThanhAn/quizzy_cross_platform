@@ -5,10 +5,9 @@ Mục tiêu là giúp sinh viên làm bài kiểm tra trực tuyến, giảng vi
 
 ## Features
 - **Sinh viên:** Làm bài thi trắc nghiệm, xem kết quả.
-- **AI Support:** Hỗ trợ sinh viên giải thích đáp án sai bằng trí tuệ nhân tạo.
 - **Giảng viên:** Quản lý đề thi, ngân hàng câu hỏi và xem kết quả.
 - **Super Admin:** Quản trị hệ thống.
-- **Authentication:** Đăng nhập bằng tài khoản hệ thống / Google Auth.
+- **Authentication:** Đăng nhập bằng tài khoản hệ thống.
 - **System:** Realtime sync với Firebase.
 
 ---
